@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07090f" />
+      <stop offset="50%" stop-color="#0d1120" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" fill="url(#grid)" />
+
+  <!-- Outer Border -->
+  <rect x="2" y="2" width="796" height="496" rx="16" fill="none" stroke="url(#borderGrad)" stroke-width="2" />
+
+  <!-- Center Card -->
+  <rect x="250" y="150" width="300" height="200" rx="12" fill="#161f32" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" />
+
+  <!-- Icon: Image Frame -->
+  <rect x="370" y="190" width="60" height="44" rx="4" fill="none" stroke="#00c8ff" stroke-width="2" />
+  <circle cx="385" cy="204" r="4" fill="#00c8ff" />
+  <path d="M 374 226 L 390 212 L 402 222 L 416 208 L 426 226" fill="none" stroke="#00c8ff" stroke-width="2" />
+
+  <!-- Label -->
+  <text x="400" y="275" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#f3f4f6" text-anchor="middle" letter-spacing="1">
+    [ EMPTY IMAGE PLACEHOLDER ]
+  </text>
+  <text x="400" y="300" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#7b8299" text-anchor="middle">
+    Configurable from Admin Panel
+  </text>
+</svg>

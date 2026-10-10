@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080b14"/>
+      <stop offset="100%" stop-color="#0e1726"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bgGrad)"/>
+  <circle cx="600" cy="337" r="450" fill="url(#orb)"/>
+
+  <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+    <line x1="0" y1="135" x2="1200" y2="135" />
+    <line x1="0" y1="270" x2="1200" y2="270" />
+    <line x1="0" y1="405" x2="1200" y2="405" />
+    <line x1="0" y1="540" x2="1200" y2="540" />
+    <line x1="240" y1="0" x2="240" y2="675" />
+    <line x1="480" y1="0" x2="480" y2="675" />
+    <line x1="720" y1="0" x2="720" y2="675" />
+    <line x1="960" y1="0" x2="960" y2="675" />
+  </g>
+
+  <rect x="70" y="55" width="1060" height="565" rx="16" fill="rgba(15, 23, 42, 0.75)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+  
+  <rect x="70" y="55" width="1060" height="50" rx="16" fill="rgba(30, 41, 59, 0.6)"/>
+  <circle cx="105" cy="80" r="6" fill="#ef4444"/>
+  <circle cx="125" cy="80" r="6" fill="#f59e0b"/>
+  <circle cx="145" cy="80" r="6" fill="#10b981"/>
+  <text x="600" y="85" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" text-anchor="middle" letter-spacing="1.5">MARTIN WASSIM — PROJECT ARCHITECTURE &amp; WORKFLOW PREVIEW</text>
+
+  <rect x="110" y="140" width="980" height="430" rx="12" fill="rgba(7, 10, 20, 0.65)" stroke="url(#accentGrad)" stroke-width="1.5"/>
+
+  <rect x="150" y="180" width="170" height="28" rx="14" fill="rgba(0, 200, 255, 0.12)" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="235" y="198" fill="#8b5cf6" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="1.5">SYSTEM ARCHITECTURE</text>
+
+  <text x="150" y="255" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="32" font-weight="800">RAG Interactive Chat & Citation Interface</text>
+
+  <text x="150" y="305" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="400">Sub-second inference, 100% offline local LLM, Granular page citations with </text>
+  <text x="150" y="332" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="400">zero hallucination and high grounded relevance</text>
+
+  <g transform="translate(150, 385)">
+    <rect x="0" y="0" width="190" height="45" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)"/>
+    <text x="95" y="27" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">Production Verified</text>
+
+    <rect x="210" y="0" width="190" height="45" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)"/>
+    <text x="305" y="27" fill="#a78bfa" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">High Performance</text>
+
+    <rect x="420" y="0" width="190" height="45" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)"/>
+    <text x="515" y="27" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">Full Source Code</text>
+
+    <rect x="630" y="0" width="190" height="45" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)"/>
+    <text x="725" y="27" fill="#f472b6" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" text-anchor="middle">Ready for Photos</text>
+  </g>
+
+  <rect x="150" y="465" width="900" height="60" rx="8" fill="rgba(0, 200, 255, 0.06)" stroke="rgba(0, 200, 255, 0.25)"/>
+  <text x="180" y="500" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500">📸 Photo Slot Ready: Place your project screenshot in this folder to display your custom photo here!</text>
+</svg>
