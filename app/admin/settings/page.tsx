@@ -9,6 +9,7 @@ import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { Textarea } from '../../../components/ui/Textarea';
 import { Switch } from '../../../components/ui/Switch';
+import { createClient, isSupabaseConfigured } from '../../../lib/supabase/client';
 import { Dialog } from '../../../components/ui/Dialog';
 
 export default function AdminSettingsPage() {
@@ -58,7 +59,29 @@ export default function AdminSettingsPage() {
     setResetDone(false);
 
     try {
-      const res = await fetch('/api/store/reset', { method: 'POST' });
+      let token = '';
+      if (isSupabaseConfigured()) {
+        try {
+          const supabase = createClient();
+          const { data } = await supabase.auth.getSession();
+          token = data?.session?.access_token || '';
+
+          const NULL_UUID = '00000000-0000-0000-0000-000000000000';
+          await supabase.from('project_content_blocks').delete().neq('id', NULL_UUID);
+          await supabase.from('projects').delete().neq('id', NULL_UUID);
+          await supabase.from('skills').delete().neq('id', NULL_UUID);
+          await supabase.from('education').delete().neq('id', NULL_UUID);
+          await supabase.from('experience').delete().neq('id', NULL_UUID);
+          await supabase.from('certifications').delete().neq('id', NULL_UUID);
+        } catch (clientErr) {
+          console.warn('Client direct cleanup warning:', clientErr);
+        }
+      }
+
+      const res = await fetch('/api/store/reset', {
+        method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.error || 'Reset failed.');
 
