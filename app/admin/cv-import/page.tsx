@@ -462,20 +462,7 @@ export default function CVImportPage() {
     });
   };
 
-  const handleRegenerateBio = () => {
-    if (!parsedData) return;
-    const newBio = synthesizeBioStory(
-      parsedData.personal.fullName,
-      parsedData.personal.headline,
-      parsedData.skills,
-      parsedData.projects || [],
-      'senior_engineer'
-    );
-    setParsedData({
-      ...parsedData,
-      summary: { ...parsedData.summary, bioParagraphs: newBio },
-    });
-  };
+
 
   // Helper to remove a skill chip in preview
   const handleRemoveSkill = (index: number) => {
@@ -1468,15 +1455,6 @@ export default function CVImportPage() {
                     <Wand2 className="w-3.5 h-3.5 text-cyan-400" />
                     <span>AI Narrative Story Biography:</span>
                   </span>
-                  <button
-                    type="button"
-                    onClick={handleRegenerateBio}
-                    className="px-2.5 py-1 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-[11px] font-semibold border border-cyan-500/30 flex items-center gap-1 transition-colors cursor-pointer"
-                    title="Re-synthesize bio narrative with active tone"
-                  >
-                    <RefreshCw className="w-3 h-3" />
-                    <span>Re-Polish Bio</span>
-                  </button>
                 </div>
                 {parsedData.summary.bioParagraphs.map((p, i) => (
                   <p key={i} className="leading-relaxed text-gray-200">
