@@ -73,7 +73,6 @@ import {
   recommendThemeForCandidate,
   generateHeadlines,
   synthesizeBioStory,
-  expandProjectDetails,
 } from '../../../lib/cv/ai-enhancer';
 import { CURATED_THEME_PRESETS } from '../../../components/admin/ThemePresetsModal';
 import {
@@ -221,7 +220,7 @@ export default function CVImportPage() {
     updateCertifications: true,
     setDownloadableCv: true,
     applyAiTheme: true,
-    mode: 'merge' as 'merge' | 'replace',
+    mode: 'replace' as 'merge' | 'replace',
   });
 
   const [applying, setApplying] = useState(false);
@@ -478,15 +477,6 @@ export default function CVImportPage() {
     });
   };
 
-  const handleExpandProjectArchitecture = (idx: number) => {
-    if (!parsedData || !parsedData.projects) return;
-    const target = parsedData.projects[idx];
-    const expanded = expandProjectDetails(target, 'senior_engineer');
-    const nextProjs = [...parsedData.projects];
-    nextProjs[idx] = expanded;
-    setParsedData({ ...parsedData, projects: nextProjs });
-  };
-
   // Helper to remove a skill chip in preview
   const handleRemoveSkill = (index: number) => {
     if (!parsedData) return;
@@ -563,17 +553,25 @@ export default function CVImportPage() {
       setApplyingStep('Linking social profiles...');
       let finalSocials: SocialLink[] = [];
       if (importOptions.updateContact) {
-        const socialLinks = await getSocialLinks();
-        const nextSocials: SocialLink[] = [...socialLinks];
+        const nextSocialsMap = new Map<string, SocialLink>();
+
+        if (importOptions.mode === 'merge') {
+          const existing = await getSocialLinks();
+          for (const s of existing) {
+            const k = (s.platform || '').trim().toLowerCase();
+            if (k) nextSocialsMap.set(k, s);
+          }
+        }
 
         const upsertSocial = (platform: string, url: string, icon: string, order: number) => {
           if (!url) return;
-          const existing = nextSocials.find((s) => s.platform.toLowerCase() === platform.toLowerCase());
+          const k = platform.trim().toLowerCase();
+          const existing = nextSocialsMap.get(k);
           if (existing) {
             existing.url = url;
             existing.is_visible = true;
           } else {
-            nextSocials.push({ id: generateUUID(), platform, url, icon, sort_order: order, is_visible: true });
+            nextSocialsMap.set(k, { id: generateUUID(), platform, url, icon, sort_order: order, is_visible: true });
           }
         };
 
@@ -582,7 +580,7 @@ export default function CVImportPage() {
         if (personal.email) upsertSocial('Email', `mailto:${personal.email}`, 'Mail', 3);
         if (personal.portfolioUrl) upsertSocial('Portfolio', personal.portfolioUrl, 'Globe', 4);
 
-        finalSocials = nextSocials.filter((s) => s.url);
+        finalSocials = Array.from(nextSocialsMap.values()).filter((s) => s.url);
         await saveSocialLinks(finalSocials);
       } else {
         finalSocials = await getSocialLinks();
@@ -703,11 +701,9 @@ export default function CVImportPage() {
         const newProjectObjects: Project[] = projects.map((p: any, idx) => {
           const cleanSlug = p.slug || p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `proj-${idx + 1}`;
           const fullDesc = [
-            p.architectureOverview ? `### Architecture Overview\n${p.architectureOverview}` : '',
-            p.problemSolved ? `### Problem Solved\n${p.problemSolved}` : '',
-            p.keyMetrics ? `### Performance & Metrics\n${p.keyMetrics}` : '',
+            p.summary && p.summary !== p.tagline ? p.summary : '',
             p.bullets && p.bullets.length > 0 ? `### Implementation Details\n${p.bullets.map((b: string) => `• ${b}`).join('\n')}` : '',
-          ].filter(Boolean).join('\n\n') || p.summary;
+          ].filter(Boolean).join('\n\n') || p.summary || p.tagline || '';
 
           return {
             id: generateUUID(),
@@ -1716,15 +1712,6 @@ export default function CVImportPage() {
                         </Badge>
                         <button
                           type="button"
-                          onClick={() => handleExpandProjectArchitecture(i)}
-                          className="px-2 py-1 rounded-lg bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 text-[10px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                          title="Generate architecture breakdown and problem-solving case study"
-                        >
-                          <Wand2 className="w-3 h-3 text-purple-400" />
-                          <span>AI Expand</span>
-                        </button>
-                        <button
-                          type="button"
                           onClick={() => handleRemoveProject(i)}
                           className="p-1 text-gray-500 hover:text-red-400 rounded-lg cursor-pointer"
                           title="Remove project"
@@ -1740,40 +1727,14 @@ export default function CVImportPage() {
                       </p>
                     )}
 
-                    {/* AI Expanded Architecture & Case Study */}
-                    {(proj.architectureOverview || proj.problemSolved || proj.keyMetrics) && (
-                      <div className="p-3 rounded-xl bg-[#080d19] border border-cyan-500/20 text-xs space-y-2">
-                        {proj.architectureOverview && (
-                          <div>
-                            <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider block">
-                              🏗️ Architecture Overview:
-                            </span>
-                            <p className="text-gray-300 text-[11px] leading-relaxed mt-0.5">
-                              {proj.architectureOverview}
-                            </p>
-                          </div>
-                        )}
-                        {proj.problemSolved && (
-                          <div>
-                            <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
-                              🎯 Problem Solved:
-                            </span>
-                            <p className="text-gray-300 text-[11px] leading-relaxed mt-0.5">
-                              {proj.problemSolved}
-                            </p>
-                          </div>
-                        )}
-                        {proj.keyMetrics && (
-                          <div>
-                            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider block">
-                              📊 Metrics & Performance:
-                            </span>
-                            <p className="text-gray-300 text-[11px] leading-relaxed mt-0.5">
-                              {proj.keyMetrics}
-                            </p>
-                          </div>
-                        )}
-                      </div>
+                    {proj.bullets && proj.bullets.length > 0 && (
+                      <ul className="space-y-1 text-xs text-gray-300/80 list-disc list-inside">
+                        {proj.bullets.slice(0, 3).map((b, bIdx) => (
+                          <li key={bIdx} className="line-clamp-2 leading-relaxed">
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
                     )}
 
                     {proj.technologies && proj.technologies.length > 0 && (

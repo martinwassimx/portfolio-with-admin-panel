@@ -170,10 +170,16 @@ export async function POST(req: NextRequest) {
               await adminSupabase.from('certifications').upsert(item);
             }
           } else if (key === 'social_links' && Array.isArray(value)) {
-            if (isReplace) {
-              await adminSupabase.from('social_links').delete().neq('platform', '___NEVER_MATCH___');
-            }
-            for (const item of value) {
+            const seen = new Set<string>();
+            const deduplicated = value.filter((item: any) => {
+              const plat = (item.platform || '').trim().toLowerCase();
+              if (!plat || seen.has(plat)) return false;
+              seen.add(plat);
+              return true;
+            });
+            // Always clean existing social links before inserting to prevent duplicate icons
+            await adminSupabase.from('social_links').delete().neq('platform', '___NEVER_MATCH___');
+            for (const item of deduplicated) {
               const socId = ensureUUID(item.id);
               await adminSupabase.from('social_links').upsert({
                 id: socId,

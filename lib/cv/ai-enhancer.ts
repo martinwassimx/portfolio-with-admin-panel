@@ -439,8 +439,7 @@ export async function runGenerativeAIAutoFill(
         keyMetrics: cloudMatch.keyMetrics,
       };
     }
-
-    return expandProjectDetails(proj, tone);
+    return proj;
   });
 
   // 5. Enhance Experience Bullets

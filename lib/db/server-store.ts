@@ -273,10 +273,29 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
   if (adminSupabase) {
     try {
       const { data, error } = await adminSupabase.from('social_links').select('*').order('sort_order', { ascending: true });
-      if (!error && Array.isArray(data)) return data as SocialLink[];
+      if (!error && Array.isArray(data)) {
+        const seen = new Set<string>();
+        const unique: SocialLink[] = [];
+        for (const item of data) {
+          const key = (item.platform || '').trim().toLowerCase();
+          if (key && !seen.has(key)) {
+            seen.add(key);
+            unique.push(item as SocialLink);
+          }
+        }
+        return unique;
+      }
     } catch (e) {
       console.warn(e);
     }
   }
-  return getServerItem<SocialLink[]>('social_links', DEFAULT_SOCIAL_LINKS);
+  const fallback = await getServerItem<SocialLink[]>('social_links', DEFAULT_SOCIAL_LINKS);
+  const seenFallback = new Set<string>();
+  return (fallback || []).filter((item) => {
+    const key = (item.platform || '').trim().toLowerCase();
+    if (!key || seenFallback.has(key)) return false;
+    seenFallback.add(key);
+    return true;
+  });
 }
+

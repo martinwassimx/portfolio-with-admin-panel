@@ -199,12 +199,11 @@ function toTitleCase(str: string): string {
 
 function isNoiseLine(line: string): boolean {
   // Filter out lines that are clearly not useful content
-  if (line.length < 3) return true;
-  if (/^(https?:\/\/|www\.|linkedin|github)/i.test(line)) return true;
-  if (/\d{5,}/.test(line)) return true; // long numbers
-  if (/^[|•–—\-─═]+$/.test(line)) return true; // dividers
-  if (/Page \d+ of \d+/i.test(line)) return true;
-  if (/@[a-zA-Z0-9]+\.[a-zA-Z]{2,}/.test(line) && !line.includes(' ')) return true; // naked email/handle
+  const trimmed = line.trim();
+  if (trimmed.length < 2) return true;
+  if (/^\d{5,}$/.test(trimmed)) return true; // standalone long numbers
+  if (/^[|•–—\-─═_=]+$/.test(trimmed)) return true; // dividers
+  if (/^page\s+\d+(\s+of\s+\d+)?$/i.test(trimmed)) return true;
   return false;
 }
 
@@ -803,16 +802,87 @@ export function parseCVText(rawText: string): ParsedCVData {
     }
   };
 
-  for (const line of sections.projects) {
+  const ACTION_VERBS_RE = /^(built|developed|designed|implemented|engineered|architected|created|enforced|integrated|optimized|streamlined|spearheaded|deployed|maintained|automated|configured|collaborated|conducted|managed|led|tested|resolved|refactored|leveraged|utilized|improved|reduced|increased|facilitated|authored|established|trained|fine-tuned|supervised|evaluated)\b/i;
+  const CONTINUATION_START_RE = /^[a-z]|^([Aa]nd|[Oo]r|[Ww]ith|[Ff]or|[Tt]o|[Ii]n|[Bb]y|[Vv]ia|[Ff]rom|[Aa]s|[Aa]t|[Ii]nto|[Ii]ncluding|such as|so that)\b/;
+  const TECH_PREFIX_RE = /^(technologies|tech\s+stack|tech|stack|tools|built\s+with|built\s+using|environment)[:\s]/i;
+  const KNOWN_TECH_LIST = [
+    'react', 'react 19', 'react 18', 'next.js', 'next.js 15', 'next.js 16', 'nextjs', 'vue', 'angular',
+    'typescript', 'javascript', 'tailwind', 'tailwind css', 'css', 'html', 'sass', 'bootstrap',
+    'node', 'node.js', 'nodejs', 'express', 'nestjs', 'python', 'fastapi', 'flask', 'django',
+    'flutter', 'dart', 'supabase', 'firebase', 'postgres', 'postgresql', 'mysql', 'mongodb', 'redis',
+    'prisma', 'drizzle', 'docker', 'kubernetes', 'aws', 'gcp', 'azure', 'vercel', 'git', 'github',
+    'graphql', 'rest', 'restful', 'pytorch', 'tensorflow', 'opencv', 'pandas', 'numpy', 'n8n'
+  ];
+
+  const isKnownTechToken = (t: string): boolean => {
+    const clean = t.toLowerCase().trim();
+    if (!clean) return false;
+    return KNOWN_TECH_LIST.some((k) => clean === k || clean.startsWith(k + ' ') || clean.includes(k));
+  };
+
+  let prevLineWasTech = false;
+
+  for (let i = 0; i < sections.projects.length; i++) {
+    const line = sections.projects[i].trim();
+    if (!line) continue;
+
     const isBullet = /^[•\-–—*▸►▪]\s+/.test(line);
 
-    if (!isBullet && line.length > 3 && line.length < 90 &&
-        !DATE_RANGE_RE.test(line) && !line.toLowerCase().startsWith('technologies') && !line.toLowerCase().startsWith('tech:')) {
+    // 1. Check for links
+    const linkMatch = line.match(/https?:\/\/[^\s]+/);
+    if (linkMatch && currentProj) {
+      if (/github\.com/i.test(linkMatch[0])) currentProj.githubUrl = linkMatch[0];
+      else currentProj.liveUrl = linkMatch[0];
+      continue;
+    }
+
+    // 2. Check if this line is a technology stack list
+    const hasTechPrefix = TECH_PREFIX_RE.test(line);
+    const hasBulletSeparatedTech = (line.includes('•') || line.includes('|') || line.includes(' · ') || line.split(',').length >= 3) &&
+      line.split(/[•|·,]/).filter((token) => isKnownTechToken(token)).length >= 2;
+
+    if (hasTechPrefix || hasBulletSeparatedTech || (prevLineWasTech && isKnownTechToken(line) && line.length < 35)) {
+      if (currentProj) {
+        const rawTechs = hasTechPrefix ? line.replace(TECH_PREFIX_RE, '') : line;
+        const extracted = rawTechs
+          .split(/(?:\s*[•|·;]\s*|,\s*(?![^()]*\)))/)
+          .map((t) => t.trim().replace(/^[\-–—]\s*/, ''))
+          .filter((t) => t.length > 1 && !/^[•\-–—*]$/.test(t));
+
+        extracted.forEach((t) => {
+          if (!currentProj!.technologies.some((exist) => exist.toLowerCase() === t.toLowerCase())) {
+            currentProj!.technologies.push(t);
+          }
+        });
+      }
+      prevLineWasTech = true;
+      continue;
+    }
+
+    // 3. Check if line is a Project Title
+    const isSeparatedTitle = /\s+[—–|]\s+|\s+-\s+|:\s+/.test(line) && !isBullet && !ACTION_VERBS_RE.test(line) && !CONTINUATION_START_RE.test(line);
+    const isShortTitle = !currentProj || (!isBullet &&
+      !ACTION_VERBS_RE.test(line) &&
+      !CONTINUATION_START_RE.test(line) &&
+      !DATE_RANGE_RE.test(line) &&
+      !/[,;]$/.test(line) &&
+      !/\b\w{3,}\.\s*$/.test(line) &&
+      line.length >= 3 && line.length <= 50 &&
+      line.split(/\s+/).length <= 6 &&
+      /^[A-Z0-9]/.test(line) &&
+      !/\b(the|is|are|was|were|that|which|into|through|with|from)\b/i.test(line)
+    );
+
+    const isProjectTitle = (isSeparatedTitle || isShortTitle) &&
+      !isBullet &&
+      !ACTION_VERBS_RE.test(line) &&
+      !CONTINUATION_START_RE.test(line) &&
+      !DATE_RANGE_RE.test(line);
+
+    if (isProjectTitle) {
       flushProject();
 
-      // Split title and tagline if separated by dash or pipe
-      // e.g. "Waste Classifier — AI Image Classification Application"
-      const dashParts = line.split(/\s+[—–|]\s+|\s+-\s+/);
+      const dashParts = line.split(/\s+[—–|]\s+|\s+-\s+|:\s+/);
       const projTitle = dashParts[0].trim();
       const projTagline = dashParts.length > 1 ? dashParts.slice(1).join(' — ').trim() : '';
 
@@ -823,28 +893,39 @@ export function parseCVText(rawText: string): ParsedCVData {
         technologies: [],
         bullets: [],
       };
-    } else if (currentProj) {
-      if (line.toLowerCase().startsWith('technologies') || line.toLowerCase().startsWith('tech:')) {
-        currentProj.technologies = line
-          .replace(/^[^:]+:\s*/i, '')
-          .split(/[,;|]/)
-          .map((t) => t.trim())
-          .filter(Boolean);
-      } else if (isBullet) {
-        const bullet = line.replace(/^[•\-–—*▸►▪]\s*/, '').trim();
-        if (bullet) {
-          currentProj.bullets.push(bullet);
-          if (!currentProj.summary) currentProj.summary = bullet;
+      prevLineWasTech = false;
+      continue;
+    }
+
+    // 4. If currentProj exists, handle as Bullet, Continuation, or Summary
+    if (currentProj) {
+      if (isBullet || ACTION_VERBS_RE.test(line)) {
+        const bulletText = line.replace(/^[•\-–—*▸►▪]\s*/, '').trim();
+        if (bulletText) {
+          currentProj.bullets.push(bulletText);
+          if (!currentProj.summary || currentProj.summary === currentProj.tagline) {
+            currentProj.summary = bulletText;
+          }
         }
+        prevLineWasTech = false;
+      } else if (CONTINUATION_START_RE.test(line) || /[,;]$/.test(line) || (currentProj.bullets.length > 0 && line.length < 120)) {
+        // Wrapped continuation line from previous bullet or summary
+        if (currentProj.bullets.length > 0) {
+          const lastIdx = currentProj.bullets.length - 1;
+          currentProj.bullets[lastIdx] = currentProj.bullets[lastIdx] + ' ' + line;
+          if (lastIdx === 0 && currentProj.summary.startsWith(currentProj.bullets[0].slice(0, 30))) {
+            currentProj.summary = currentProj.bullets[0];
+          }
+        } else if (currentProj.summary) {
+          currentProj.summary = currentProj.summary + ' ' + line;
+        } else {
+          currentProj.bullets.push(line);
+          currentProj.summary = line;
+        }
+        prevLineWasTech = false;
       } else if (!currentProj.summary && line.length > 15) {
         currentProj.summary = line;
-      }
-
-      // Check for github or live links in project
-      const linkMatch = line.match(/https?:\/\/[^\s]+/);
-      if (linkMatch) {
-        if (/github\.com/i.test(linkMatch[0])) currentProj.githubUrl = linkMatch[0];
-        else currentProj.liveUrl = linkMatch[0];
+        prevLineWasTech = false;
       }
     }
   }

@@ -543,19 +543,58 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from('social_links').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as SocialLink[];
+      if (!error && Array.isArray(data) && data.length > 0) {
+        const seen = new Set<string>();
+        const unique: SocialLink[] = [];
+        for (const item of data) {
+          const key = (item.platform || '').trim().toLowerCase();
+          if (key && !seen.has(key)) {
+            seen.add(key);
+            unique.push(item as SocialLink);
+          }
+        }
+        return unique;
+      }
     } catch (e) {
       console.warn(e);
     }
   }
-  return getLocalItem('social_links', DEFAULT_SOCIAL_LINKS);
+  const local = getLocalItem('social_links', DEFAULT_SOCIAL_LINKS);
+  const seenLocal = new Set<string>();
+  return (local || []).filter((item: SocialLink) => {
+    const key = (item.platform || '').trim().toLowerCase();
+    if (!key || seenLocal.has(key)) return false;
+    seenLocal.add(key);
+    return true;
+  });
 }
 
 export async function saveSocialLinks(links: SocialLink[]): Promise<SocialLink[]> {
-  setLocalItem('social_links', links);
-  await logActivity('UPDATE_SOCIAL_LINKS', 'social_links', 'all', { count: links.length });
-  return links;
+  const seen = new Set<string>();
+  const deduplicated = links.filter((item) => {
+    const key = (item.platform || '').trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  setLocalItem('social_links', deduplicated);
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createClient();
+      // Remove all then re-insert deduplicated
+      await supabase.from('social_links').delete().neq('platform', '___NEVER_MATCH___');
+      for (const item of deduplicated) {
+        await supabase.from('social_links').upsert(item);
+      }
+    } catch (e) {
+      console.warn('Failed to upsert social links to Supabase', e);
+    }
+  }
+  await logActivity('UPDATE_SOCIAL_LINKS', 'social_links', 'all', { count: deduplicated.length });
+  return deduplicated;
 }
+
 
 // ---------------- Contact Messages ----------------
 export async function getContactMessages(): Promise<ContactMessage[]> {
