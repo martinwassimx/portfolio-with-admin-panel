@@ -5,6 +5,7 @@
 > 
 > A production-grade, full-stack software engineering portfolio featuring an enterprise-grade **Smart Portfolio Auto-Fill 2.0 (Generative AI Engine)**, dynamic real-time theme studio, deep project case studies, and dual-layer zero-lockin data persistence.
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-ai--portfolio--with--admin--panel.vercel.app-00c8ff?style=flat&logo=vercel)](https://ai-portfolio-with-admin-panel.vercel.app/)
 [![Author](https://img.shields.io/badge/Author-Martin_Wassim-blue?style=flat&logo=github)](https://github.com/martinwassimx)
 [![AI Engine](https://img.shields.io/badge/AI_Engine-Generative_AI_2.0-8b5cf6?style=flat&logo=google-gemini)](https://github.com/martinwassimx/portfolio-with-admin-panel)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4.0-black?logo=next.js)](https://nextjs.org/)
@@ -368,8 +369,9 @@ npm run dev
 ```
 
 Visit the application:
-- **Public Portfolio**: [http://localhost:3000](http://localhost:3000)
-- **Admin Control Panel**: [http://localhost:3000/admin](http://localhost:3000/admin)
+- **Live Production URL**: [https://ai-portfolio-with-admin-panel.vercel.app](https://ai-portfolio-with-admin-panel.vercel.app)
+- **Local Public Portfolio**: [http://localhost:3000](http://localhost:3000)
+- **Local Admin Control Panel**: [http://localhost:3000/admin](http://localhost:3000/admin)
 
 ---
 
