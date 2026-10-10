@@ -96,7 +96,7 @@ export function Footer({ siteSettings, socialLinks }: FooterProps) {
 
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>© 2026 {siteSettings.logo_text || 'Portfolio'}. All rights reserved.</p>
+          <p>© 2026 Martin Wassim. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span className="text-gray-500">Crafted with Next.js, TypeScript & Tailwind CSS</span>
           </div>

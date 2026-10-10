@@ -1,7 +1,12 @@
 # Modern Developer Portfolio & Administration Platform
 
-> A production-grade, full-stack software engineering portfolio featuring dynamic theme customization, an in-depth case study engine, contact inquiry management, and an automated **Smart CV Auto-Fill 2.0** pipeline powered by document parsing and generative heuristics.
+> **Author & Lead Software Engineer**: **Martin Wassim**  
+> **Copyright**: © 2026 Martin Wassim. All rights reserved.  
+> 
+> A production-grade, full-stack software engineering portfolio featuring an enterprise-grade **Smart Portfolio Auto-Fill 2.0 (Generative AI Engine)**, dynamic real-time theme studio, deep project case studies, and dual-layer zero-lockin data persistence.
 
+[![Author](https://img.shields.io/badge/Author-Martin_Wassim-blue?style=flat&logo=github)](https://github.com/martinwassimx)
+[![AI Engine](https://img.shields.io/badge/AI_Engine-Generative_AI_2.0-8b5cf6?style=flat&logo=google-gemini)](https://github.com/martinwassimx/portfolio-with-admin-panel)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4.0-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.3.0-blue?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
@@ -14,28 +19,28 @@
 ## 📖 Table of Contents
 
 1. [Project Overview](#-project-overview)
-2. [Key Features](#-key-features)
+2. [🤖 Flagship Feature: Smart Portfolio Auto-Fill 2.0 (Generative AI Engine)](#-flagship-feature-smart-portfolio-auto-fill-20-generative-ai-engine)
+3. [Key Features](#-key-features)
    - [Public Visitor Experience](#public-visitor-experience)
    - [Administrative Control Panel](#administrative-control-panel-admin)
-   - [Smart Portfolio Auto-Fill 2.0 Pipeline](#smart-portfolio-auto-fill-20-pipeline)
-3. [Technology Stack](#-technology-stack)
-4. [Project Architecture](#-project-architecture)
-5. [Directory Structure](#-directory-structure)
-6. [Prerequisites](#-prerequisites)
-7. [Installation & Setup](#-installation--setup)
-8. [Environment Variables](#-environment-variables)
-9. [Database Setup & Migrations](#-database-setup--migrations)
-10. [Running the Application](#-running-the-application)
-11. [Application Usage Guide](#-application-usage-guide)
-12. [API Reference](#-api-reference)
-13. [Scripts & Tooling](#-scripts--tooling)
-14. [Testing & Quality Assurance](#-testing--quality-assurance)
-15. [Deployment Guide (Vercel & Supabase)](#-deployment-guide-vercel--supabase)
-16. [Security Architecture](#-security-architecture)
-17. [Troubleshooting](#-troubleshooting)
-18. [Known Limitations & Roadmap](#-known-limitations--roadmap)
-19. [Contributing](#-contributing)
-20. [License](#-license)
+4. [Technology Stack](#-technology-stack)
+5. [Project Architecture](#-project-architecture)
+6. [Directory Structure](#-directory-structure)
+7. [Prerequisites](#-prerequisites)
+8. [Installation & Setup](#-installation--setup)
+9. [Environment Variables](#-environment-variables)
+10. [Database Setup & Migrations](#-database-setup--migrations)
+11. [Running the Application](#-running-the-application)
+12. [Application Usage Guide](#-application-usage-guide)
+13. [API Reference](#-api-reference)
+14. [Scripts & Tooling](#-scripts--tooling)
+15. [Testing & Quality Assurance](#-testing--quality-assurance)
+16. [Deployment Guide (Vercel & Supabase)](#-deployment-guide-vercel--supabase)
+17. [Security Architecture](#-security-architecture)
+18. [Troubleshooting](#-troubleshooting)
+19. [Known Limitations & Roadmap](#-known-limitations--roadmap)
+20. [Contributing](#-contributing)
+21. [License & Copyright](#-license--copyright)
 
 ---
 
@@ -49,6 +54,95 @@ Maintaining an up-to-date portfolio is often a manual, time-consuming process th
 - **Instant Auto-Population**: Upload your resume in PDF format or paste its plain text, and the system automatically extracts your name, contact coordinates, biography, technical competencies, career milestones, degrees, and verified certifications—auto-populating the entire site in seconds.
 - **Dual Data Layer (Zero-Lockin)**: Operates out-of-the-box with a high-performance local store (`data/portfolio-store.json`) and client-side storage, seamlessly upgrading to **Supabase PostgreSQL** with Row-Level Security (RLS) when environment variables are supplied.
 - **Dynamic Theme Studio**: Real-time CSS custom property injection allows changing colors, ambient glow, corner radii, and grid textures across the entire site without page reloads.
+
+---
+
+## 🤖 Flagship Feature: Smart Portfolio Auto-Fill 2.0 (Generative AI Engine)
+
+The core innovation of this platform is the **Smart Portfolio Auto-Fill 2.0 Engine** (`lib/cv/ai-enhancer.ts` & `lib/cv/parser.ts`), architected and engineered by **Martin Wassim**. It transforms unstructured resumes into a fully functional, aesthetic developer portfolio in seconds through deep generative modeling and hybrid extraction.
+
+```
+       ┌─────────────────────────────────────────────────────────────┐
+       │                CV INPUT (PDF Binary or Raw Text)            │
+       └──────────────────────────────┬──────────────────────────────┘
+                                      │
+                                      ▼
+                    [ Hybrid Tokenization & Parser ]
+            (unpdf / pdf-parse + Regex Heuristic Classification)
+                                      │
+                                      ▼
+       ┌─────────────────────────────────────────────────────────────┐
+       │      GENERATIVE AI 2.0 MULTI-MODEL ORCHESTRATOR             │
+       ├─────────────────────────────────────────────────────────────┤
+       │  • Google Gemini 1.5 Flash (REST Native JSON Schema)        │
+       │  • OpenAI GPT-4o-mini (Structured Outputs Mode)             │
+       │  • Built-in Generative Heuristics Engine (Zero-Config)      │
+       └──────┬──────────────────────┬──────────────────────┬────────┘
+              │                      │                      │
+              ▼                      ▼                      ▼
+      [ Story Bio Synth ]   [ Case-Study Expander ]  [ Theme Recommender ]
+      3-paragraph narrative  Architecture, metrics,  Auto-maps skill set
+      tailored to Persona    problem statements, &   to 12 atmosphere
+      tone settings          active action verbs     preset themes
+              │                      │                      │
+              └──────────────────────┼──────────────────────┘
+                                     │
+                                     ▼
+        ┌────────────────────────────────────────────────────────┐
+        │            AI READINESS & QUALITY SCORECARD            │
+        │          Live scoring, diff preview, edit canvas       │
+        └────────────────────────────┬───────────────────────────┘
+                                     │
+                                     ▼
+         [ 1-Click Atomic Dual-Store Persistence (/api/store) ]
+          PostgreSQL (Supabase RLS) ◄──► Server JSON Fallback
+```
+
+### 🌟 Deep-Dive into the AI Engine Capabilities
+
+1. **Multi-Model Orchestration with Zero-Config Fallback**:
+   - **Google Gemini 1.5 Flash**: Direct REST API integration with native JSON response mode and temperature controls for balanced factual extraction and polished prose.
+   - **OpenAI GPT-4o-mini**: Support for OpenAI completions with JSON object mode.
+   - **Built-in Offline Generative AI (Zero External Dependencies)**: If no API keys are provided, a sophisticated offline generative engine executes immediately. The entire platform works 100% out-of-the-box without requiring external API keys.
+
+2. **Persona Tone Modeling (`AITone`)**:
+   - **Senior Engineer**: Generates copy emphasizing architectural resilience, system reliability, testing, and leadership.
+   - **Founder & Visionary**: Generates high-velocity product narratives, zero-to-one engineering leadership, and business value creation.
+   - **Product Innovator**: Crafts statements highlighting UX polish, developer velocity, and user-centric problem solving.
+   - **Concise**: Generates hyper-condensed, metric-dense summaries for rapid recruiter scannability.
+
+3. **3-Stage Narrative Bio Story Generation (`synthesizeBioStory`)**:
+   - Rather than simple keyword extraction, the engine synthesizes a cohesive, 3-paragraph executive narrative:
+     - **Paragraph 1 (Engineering Identity & Mission)**: Defines technical domain, experience level, and core philosophy.
+     - **Paragraph 2 (Architectural Depth)**: Interweaves top technologies, frameworks, and real project implementations.
+     - **Paragraph 3 (Vision & Impact)**: Articulates career trajectory, engineering ethics, and team contributions.
+
+4. **Deep Project Case-Study Expander (`expandProjectDetails`)**:
+   - Automatically upgrades basic project bullet points into comprehensive engineering case studies featuring:
+     - **Problem Solved**: Synthesizes the real-world friction or engineering challenge addressed.
+     - **Architecture Overview**: Explains design patterns, data pipelines, state management, or backend infrastructure.
+     - **Key Metrics & Impact**: Generates measurable outcome statements (latency reductions, uptime benchmarks, user scale).
+     - **Action-Verb Optimization**: Rephrases passive responsibilities into leadership-driven statements starting with validated verbs (*Architected, Spearheaded, Engineered, Orchestrated, Optimized*).
+
+5. **Dynamic Skill Taxonomy & Proficiency Classifier**:
+   - Automatically parses and categorizes raw technical terms into 5 structured categories:
+     - *Programming Languages*, *Frameworks & Libraries*, *AI & Machine Learning*, *Databases & Tools*, and *Architecture & Design*.
+   - Automatically computes weighted proficiency ratings (70% - 98%) based on contextual prominence in work history.
+
+6. **Intelligent Atmosphere Theme Recommendation Engine (`recommendThemeForCandidate`)**:
+   - Analyzes candidate skill landscape to automatically match and recommend the ideal visual theme:
+     - 🧠 **AI / Machine Learning / Data Science** $\rightarrow$ **Emerald Matrix** (`#10b981`, `#05130d`)
+     - 📱 **Mobile / Cross-Platform / Frontend** $\rightarrow$ **Cyber Neon Cyan** (`#00c8ff`, `#07090f`)
+     - ☁️ **Cloud / DevOps / Distributed Systems** $\rightarrow$ **Ocean Sapphire** (`#0099ff`, `#030c18`)
+     - 🛡️ **Cybersecurity / Penetration Testing** $\rightarrow$ **Crimson Vanguard** (`#ef4444`, `#130808`)
+     - ⚡ **Full Stack / Enterprise Architecture** $\rightarrow$ **Violet Eclipse** (`#a855f7`, `#0c0618`)
+
+7. **Live Quality & Readiness Scorecard (0–100%)**:
+   - Instant visual feedback on candidate portfolio readiness, detailing contact integrity, credential verification, and bullet optimization statistics.
+
+8. **1-Click Atomic Dual-Store Persistence & Verified Reset Engine**:
+   - Single-click ingestion synchronizes all structured entities atomically across both the local server store (`portfolio-store.json`) and Supabase PostgreSQL.
+   - Includes a verified **Clear All Portfolio Data** engine with foreign-key cascade safety and conflict-free resets.
 
 ---
 
@@ -507,6 +601,11 @@ Contributions are welcome! Please review our [CONTRIBUTING.md](./CONTRIBUTING.md
 
 ---
 
-## 📄 License
+## 📄 License & Copyright
 
-This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
+**Copyright © 2026 Martin Wassim. All rights reserved.**
+
+This software platform, architectural design, AI engine, and codebase were authored and engineered by **Martin Wassim**.  
+All copyrights and intellectual property rights belong exclusively to **Martin Wassim**.
+
+Licensed under the [MIT License](./LICENSE) — see the [LICENSE](./LICENSE) file for details.

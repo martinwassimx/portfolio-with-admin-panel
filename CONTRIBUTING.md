@@ -62,3 +62,13 @@ Before submitting a pull request, ensure:
 - [ ] No private environment variables or secrets (`.env`, service keys) are committed.
 - [ ] New features or API changes are documented in `README.md` or `docs/`.
 - [ ] Commit messages follow conventional commit style (e.g., `feat:`, `fix:`, `docs:`, `refactor:`).
+
+---
+
+## 4. Copyright & Intellectual Property
+
+This project was authored and architected by **Martin Wassim**.  
+**Copyright © 2026 Martin Wassim. All rights reserved.**
+
+All contributions accepted into this repository remain governed by the project's [MIT License](./LICENSE).
+

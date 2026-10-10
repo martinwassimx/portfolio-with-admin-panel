@@ -1,6 +1,9 @@
 # API Reference & Route Documentation
 
-This document describes all verified API route handlers implemented in the application under `app/api/`.
+> **Author & Lead Software Engineer**: **Martin Wassim**  
+> **Copyright**: © 2026 Martin Wassim. All rights reserved.  
+> 
+> This document describes all verified API route handlers implemented in the application under `app/api/`.
 
 ---
 

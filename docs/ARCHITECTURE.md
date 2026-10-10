@@ -1,6 +1,9 @@
 # System Architecture & Technical Design
 
-This document details the architectural design, component interactions, data flow, and security mechanisms of the **Portfolio with Admin Panel** application.
+> **Author & Lead Software Engineer**: **Martin Wassim**  
+> **Copyright**: © 2026 Martin Wassim. All rights reserved.  
+> 
+> This document details the architectural design, component interactions, data flow, Generative AI pipeline, and security mechanisms of the **Portfolio with Admin Panel** application authored by Martin Wassim.
 
 ---
 
@@ -98,7 +101,11 @@ graph TD
 
 ---
 
-## 3. Data Ingestion & Auto-Fill Pipeline (`lib/cv/`)
+## 3. Smart Portfolio Auto-Fill 2.0 & Generative AI Architecture (`lib/cv/`)
+
+The CV Auto-Fill 2.0 system is an intelligent resume ingestion and portfolio generation engine architected by Martin Wassim. It operates across multiple layers to parse, enrich, and map unstructured documents into a live production portfolio.
+
+### 3.1 Architecture Diagram
 
 ```mermaid
 sequenceDiagram
@@ -108,23 +115,64 @@ sequenceDiagram
     participant Route as /api/cv/parse
     participant Parser as lib/cv/parser.ts
     participant AI as lib/cv/ai-enhancer.ts
+    participant LLM as Cloud LLM (Gemini / OpenAI)
     participant Store as /api/store
 
     Admin->>UI: Upload CV (PDF) or Paste Resume Text
     UI->>Route: POST /api/cv/parse (multipart / json)
     Route->>Parser: parseCVText(rawText)
-    Note over Parser: Regex + heuristic tokenization<br/>extracts Personal, Skills, Experience,<br/>Education, Projects & Certifications
-    alt AI Enhancement Enabled
+    Note over Parser: Regex + heuristic tokenization<br/>Extracts Personal, Skills, Experience,<br/>Education, Projects & Certifications
+    alt Cloud LLM Configured (GEMINI_API_KEY / OPENAI_API_KEY)
         Route->>AI: runGenerativeAIAutoFill(parsedData)
-        Note over AI: Synthesizes bio narrative,<br/>refines project metrics & bullets,<br/>computes theme recommendation
+        AI->>LLM: Multi-Prompt JSON Schema Payload
+        LLM-->>AI: Structured Bio, Headlines, Project Architecture
+    else Built-In Generative Fallback (Zero Config)
+        Route->>AI: runGenerativeAIAutoFill(parsedData)
+        Note over AI: Executes built-in generative heuristics,<br/>story bio synthesis, bullet polishing,<br/>and dynamic theme mapping
     end
-    Route-->>UI: Return Structured Candidate Profile
+    AI->>AI: recommendThemeForCandidate(skills, projects)
+    AI-->>Route: Return AIEnhancedCVData Payload
+    Route-->>UI: Return Structured Candidate Profile + Scorecard
     Admin->>UI: Review & Edit in Real-Time Preview
     Admin->>UI: Click "Apply & Auto-Fill Entire Portfolio"
-    UI->>Store: POST /api/store (batch payload)
+    UI->>Store: POST /api/store (atomic batch payload)
     Note over Store: Synchronizes Supabase tables<br/>& updates local JSON store
     Store-->>UI: 200 OK + Cache Invalidation
 ```
+
+### 3.2 Key AI Engine Modules
+
+1. **Multi-Model Orchestration (`callCloudLLMEnhancer`)**:
+   - Supports **Google Gemini 1.5 Flash** via Google Generative AI REST endpoints with native JSON mime-type constraints.
+   - Supports **OpenAI GPT-4o-mini** via OpenAI Chat Completion API with JSON object mode.
+   - Built-in **Offline Generative Heuristics Engine**: Executes immediately with zero configuration and zero external dependencies if no API keys are present.
+
+2. **Persona Tone Modeling (`AITone`)**:
+   - `senior_engineer`: Focuses on architectural scalability, system reliability, and technical leadership.
+   - `founder_visionary`: Highlights 0-to-1 product development, business velocity, and high-level strategy.
+   - `product_innovator`: Emphasizes UX cohesion, rapid prototyping, and user impact.
+   - `concise`: Streamlined, high-density bullet points for fast scanning.
+
+3. **Narrative Bio Story Synthesis (`synthesizeBioStory`)**:
+   - Automatically constructs a 3-paragraph executive narrative:
+     1. **Introduction & Engineering Identity**: Connects the candidate's name and primary focus to modern industry needs.
+     2. **Core Architectural Depth**: Weaves specific extracted technologies and recent projects into technical capability statements.
+     3. **Future Trajectory**: Articulates team value proposition and engineering ethos.
+
+4. **Dynamic Theme Atmosphere Recommendation (`recommendThemeForCandidate`)**:
+   - Evaluates the candidate's primary technical discipline:
+     - **AI / ML / Computer Vision** $\rightarrow$ **Emerald Matrix** (`#10b981`, `#05130d`)
+     - **Mobile / Flutter / Frontend** $\rightarrow$ **Cyber Neon Cyan** (`#00c8ff`, `#07090f`)
+     - **Cloud / DevOps / Backend** $\rightarrow$ **Ocean Sapphire** (`#0099ff`, `#030c18`)
+     - **Cybersecurity / Penetration Testing** $\rightarrow$ **Crimson Vanguard** (`#ef4444`, `#130808`)
+     - **Full Stack / Enterprise Systems** $\rightarrow$ **Violet Eclipse** (`#a855f7`, `#0c0618`)
+
+5. **Case-Study Expansion & Impact Metric Polishing**:
+   - Upgrades raw resume projects with synthesized **Problem Solved**, **Architecture Overview**, and **Key Metrics**.
+   - Transforms passive duty descriptions into active leadership bullets beginning with validated action verbs (*Architected, Spearheaded, Engineered, Orchestrated, Optimized*).
+
+6. **AI Readiness Scorecard (0–100%)**:
+   - Evaluates overall resume completeness, contact integrity, skill diversity, experience depth, and credential presence to give immediate quality feedback.
 
 ---
 

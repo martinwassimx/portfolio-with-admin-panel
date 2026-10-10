@@ -2,6 +2,8 @@
   "name": "portfolio-with-admin-panel",
   "version": "0.1.0",
   "private": true,
+  "author": "Martin Wassim",
+  "copyright": "Copyright (c) 2026 Martin Wassim. All rights reserved.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

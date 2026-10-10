@@ -1,6 +1,9 @@
 # Database Schema & Data Architecture
 
-This document provides a comprehensive technical reference for the database schema, table structures, relationships, Row-Level Security (RLS) policies, and migrations.
+> **Author & Lead Software Engineer**: **Martin Wassim**  
+> **Copyright**: © 2026 Martin Wassim. All rights reserved.  
+> 
+> This document provides a comprehensive technical reference for the database schema, table structures, relationships, Row-Level Security (RLS) policies, and migrations.
 
 ---
 
