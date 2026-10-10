@@ -22,14 +22,14 @@ export async function POST(req: NextRequest) {
     await setServerItem('site_settings', DEFAULT_SITE_SETTINGS);
     await setServerItem('page_sections', DEFAULT_PAGE_SECTIONS);
     await setServerItem('skill_categories', DEFAULT_SKILL_CATEGORIES);
-    await setServerItem('skills', DEFAULT_SKILLS);
-    await setServerItem('education', DEFAULT_EDUCATION);
-    await setServerItem('experience', DEFAULT_EXPERIENCE);
-    await setServerItem('certifications', DEFAULT_CERTIFICATIONS);
+    await setServerItem('skills', []);
+    await setServerItem('education', []);
+    await setServerItem('experience', []);
+    await setServerItem('certifications', []);
     await setServerItem('social_links', DEFAULT_SOCIAL_LINKS);
-    await setServerItem('projects', DEFAULT_PROJECTS);
-    await setServerItem('activity_logs', DEFAULT_ACTIVITY_LOGS);
-    await setServerItem('contact_messages', DEFAULT_CONTACT_MESSAGES);
+    await setServerItem('projects', []);
+    await setServerItem('activity_logs', []);
+    await setServerItem('contact_messages', []);
 
     // 2. Reset Supabase tables if configured
     const adminSupabase = createAdminClient();
@@ -80,6 +80,7 @@ export async function POST(req: NextRequest) {
         await adminSupabase.from('education').delete().neq('institution', '___NEVER_MATCH___');
         await adminSupabase.from('experience').delete().neq('company', '___NEVER_MATCH___');
         await adminSupabase.from('certifications').delete().neq('title', '___NEVER_MATCH___');
+        await adminSupabase.from('project_content_blocks').delete().neq('block_type', '___NEVER_MATCH___');
         await adminSupabase.from('projects').delete().neq('title', '___NEVER_MATCH___');
         await adminSupabase.from('social_links').delete().neq('platform', '___NEVER_MATCH___');
         await adminSupabase.from('contact_messages').delete().neq('name', '___NEVER_MATCH___');

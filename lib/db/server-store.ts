@@ -190,7 +190,7 @@ export async function getSkills(): Promise<Skill[]> {
         .from('skills')
         .select('*')
         .order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as Skill[];
+      if (!error && Array.isArray(data)) return data as Skill[];
     } catch (e) {
       console.warn(e);
     }
@@ -208,7 +208,7 @@ export async function getProjects(options: { publishedOnly?: boolean } = {}): Pr
         query = query.eq('is_published', true);
       }
       const { data, error } = await query;
-      if (!error && data && data.length > 0) return data as Project[];
+      if (!error && Array.isArray(data)) return data as Project[];
     } catch (e) {
       console.warn(e);
     }
@@ -231,7 +231,7 @@ export async function getEducation(): Promise<EducationEntry[]> {
   if (adminSupabase) {
     try {
       const { data, error } = await adminSupabase.from('education').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as EducationEntry[];
+      if (!error && Array.isArray(data)) return data as EducationEntry[];
     } catch (e) {
       console.warn(e);
     }
@@ -245,7 +245,7 @@ export async function getExperience(): Promise<ExperienceEntry[]> {
   if (adminSupabase) {
     try {
       const { data, error } = await adminSupabase.from('experience').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as ExperienceEntry[];
+      if (!error && Array.isArray(data)) return data as ExperienceEntry[];
     } catch (e) {
       console.warn(e);
     }
@@ -259,7 +259,7 @@ export async function getCertifications(): Promise<Certification[]> {
   if (adminSupabase) {
     try {
       const { data, error } = await adminSupabase.from('certifications').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as Certification[];
+      if (!error && Array.isArray(data)) return data as Certification[];
     } catch (e) {
       console.warn(e);
     }
@@ -273,7 +273,7 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
   if (adminSupabase) {
     try {
       const { data, error } = await adminSupabase.from('social_links').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as SocialLink[];
+      if (!error && Array.isArray(data)) return data as SocialLink[];
     } catch (e) {
       console.warn(e);
     }

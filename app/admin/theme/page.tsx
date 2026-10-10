@@ -81,7 +81,10 @@ export default function AdminThemePage() {
   };
 
   const handleApplyPreset = async (preset: ThemePreset) => {
-    const next = { ...formTheme, ...preset.theme };
+    const computedGlow =
+      preset.theme.accent_glow ||
+      `color-mix(in srgb, ${preset.theme.primary_color || formTheme.primary_color} 38%, transparent)`;
+    const next = { ...formTheme, ...preset.theme, accent_glow: computedGlow };
     setFormTheme(next);
     previewTheme(next);
     try {

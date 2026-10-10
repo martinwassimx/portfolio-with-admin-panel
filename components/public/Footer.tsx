@@ -40,7 +40,7 @@ export function Footer({ siteSettings, socialLinks }: FooterProps) {
               href="/"
               className="text-2xl font-bold tracking-tight text-white transition-colors"
             >
-              {siteSettings.logo_text || 'MW'}
+              {(siteSettings.logo_text || 'MW').replace(/\.+$/, '')}
               <span style={{ color: 'var(--accent)' }}>.</span>
             </Link>
             <p className="text-sm text-gray-400 mt-1 max-w-sm">

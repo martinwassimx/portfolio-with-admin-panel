@@ -6,7 +6,7 @@
   --bg-card: #111827;
   --bg-card-2: #161f32;
   --border: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(0, 200, 255, 0.25);
+  --border-glow: color-mix(in srgb, var(--accent) 35%, transparent);
 
   --text: #f3f4f6;
   --text-muted: #9ca3af;

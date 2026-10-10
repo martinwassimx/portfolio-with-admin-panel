@@ -10,7 +10,7 @@ export interface AdminUser {
 }
 
 export async function getCurrentAdmin(): Promise<AdminUser | null> {
-  // 1. If Supabase is configured, check authenticated user and profile role
+  // 1. In production with Supabase configured, strictly verify authenticated session and admin profile role
   if (isSupabaseConfigured()) {
     try {
       const supabase = createClient();
@@ -37,9 +37,11 @@ export async function getCurrentAdmin(): Promise<AdminUser | null> {
     } catch (e) {
       console.warn('Supabase auth check failed', e);
     }
+    // Do not fall back to local unverified storage if Supabase is active
+    return null;
   }
 
-  // 2. Check local admin session for local development / demo mode
+  // 2. Fallback only for offline local development without Supabase credentials
   if (typeof window !== 'undefined') {
     try {
       const raw = localStorage.getItem(ADMIN_STORAGE_KEY);
@@ -54,7 +56,7 @@ export async function getCurrentAdmin(): Promise<AdminUser | null> {
   return null;
 }
 
-export async function loginAdminLocally(email: string = 'admin@portfolio.local'): Promise<AdminUser> {
+export async function loginAdminLocally(email: string): Promise<AdminUser> {
   const user: AdminUser = {
     id: 'local-admin-1',
     email,

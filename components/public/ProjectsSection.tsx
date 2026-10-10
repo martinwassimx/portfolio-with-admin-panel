@@ -20,6 +20,8 @@ export function ProjectsSection({ section, projects }: ProjectsSectionProps) {
     .filter((p) => p.is_published)
     .sort((a, b) => a.sort_order - b.sort_order);
 
+  if (publishedProjects.length === 0) return null;
+
   // Extract unique tech tags
   const allTags = Array.from(
     new Set(publishedProjects.flatMap((p) => p.technologies || []))

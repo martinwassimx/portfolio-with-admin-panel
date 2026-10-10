@@ -32,7 +32,7 @@ import {
 import { isSupabaseConfigured, createClient } from '../supabase/client';
 
 const STORAGE_KEY_PREFIX = 'portfolio_db_';
-const DB_VERSION = 'v3_clean';
+const DB_VERSION = 'v4_production';
 
 function getLocalItem<T>(key: string, defaultValue: T): T {
   if (typeof window === 'undefined') return defaultValue;
@@ -51,10 +51,6 @@ function getLocalItem<T>(key: string, defaultValue: T): T {
 
     const raw = localStorage.getItem(STORAGE_KEY_PREFIX + key);
     if (!raw) return defaultValue;
-    if (raw.includes('Type Test Text')) {
-      localStorage.removeItem(STORAGE_KEY_PREFIX + key);
-      return defaultValue;
-    }
     return JSON.parse(raw);
   } catch (e) {
     console.error(`Failed to read ${key} from localStorage`, e);
@@ -331,7 +327,7 @@ export async function getSkills(): Promise<Skill[]> {
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from('skills').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as Skill[];
+      if (!error && Array.isArray(data)) return data as Skill[];
     } catch (e) {
       console.warn(e);
     }
@@ -347,7 +343,6 @@ export async function saveSkills(skills: Skill[]): Promise<Skill[]> {
 
 // ---------------- Projects ----------------
 export async function getProjects(options: { publishedOnly?: boolean } = {}): Promise<Project[]> {
-  let projects: Project[] = [];
   if (isSupabaseConfigured()) {
     try {
       const supabase = createClient();
@@ -356,19 +351,17 @@ export async function getProjects(options: { publishedOnly?: boolean } = {}): Pr
         query = query.eq('is_published', true);
       }
       const { data, error } = await query;
-      if (!error && data) {
-        projects = data as Project[];
+      if (!error && Array.isArray(data)) {
+        return data as Project[];
       }
     } catch (e) {
       console.warn(e);
     }
   }
 
-  if (projects.length === 0) {
-    projects = getLocalItem('projects', DEFAULT_PROJECTS);
-    if (options.publishedOnly) {
-      projects = projects.filter((p) => p.is_published);
-    }
+  const projects = getLocalItem('projects', DEFAULT_PROJECTS);
+  if (options.publishedOnly) {
+    return projects.filter((p) => p.is_published);
   }
   return projects;
 }
@@ -455,7 +448,7 @@ export async function getEducation(): Promise<EducationEntry[]> {
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from('education').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as EducationEntry[];
+      if (!error && Array.isArray(data)) return data as EducationEntry[];
     } catch (e) {
       console.warn(e);
     }
@@ -474,7 +467,7 @@ export async function getExperience(): Promise<ExperienceEntry[]> {
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from('experience').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as ExperienceEntry[];
+      if (!error && Array.isArray(data)) return data as ExperienceEntry[];
     } catch (e) {
       console.warn(e);
     }
@@ -494,7 +487,7 @@ export async function getCertifications(): Promise<Certification[]> {
     try {
       const supabase = createClient();
       const { data, error } = await supabase.from('certifications').select('*').order('sort_order', { ascending: true });
-      if (!error && data && data.length > 0) return data as Certification[];
+      if (!error && Array.isArray(data)) return data as Certification[];
     } catch (e) {
       console.warn(e);
     }

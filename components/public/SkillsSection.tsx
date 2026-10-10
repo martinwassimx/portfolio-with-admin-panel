@@ -16,6 +16,8 @@ export function SkillsSection({ section, categories, skills }: SkillsSectionProp
     .filter((c) => c.is_visible)
     .sort((a, b) => a.sort_order - b.sort_order);
 
+  if (skills.length === 0 || visibleCategories.length === 0) return null;
+
   // Dynamic theme-adaptive styling for category icons and accent aura
   const getCategoryThemePalette = (index: number) => {
     const palettes = [

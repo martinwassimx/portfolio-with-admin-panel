@@ -49,7 +49,11 @@ export function ThemeProvider({
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
 
-    const dynamicGlow = t.accent_glow || `color-mix(in srgb, ${t.primary_color} 35%, transparent)`;
+    const isCyanAccent = t.primary_color?.toLowerCase() === '#00c8ff';
+    const dynamicGlow =
+      t.accent_glow && (isCyanAccent || !t.accent_glow.includes('0, 200, 255'))
+        ? t.accent_glow
+        : `color-mix(in srgb, ${t.primary_color} 38%, transparent)`;
 
     root.style.setProperty('--bg', t.bg_color);
     root.style.setProperty('--bg-2', t.bg_secondary);

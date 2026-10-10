@@ -51,7 +51,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000`;
           )}
           <div>
             <h3 className="text-base font-bold text-white">
-              {isConnected ? 'Supabase Database Connected' : 'Running in Local Demo / Offline Mode'}
+              {isConnected ? 'Supabase Database Connected' : 'Running in Local Offline Mode'}
             </h3>
             <p className="text-xs opacity-90 mt-0.5">
               {isConnected

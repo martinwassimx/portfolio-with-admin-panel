@@ -66,6 +66,11 @@ export default function AdminSettingsPage() {
         Object.keys(localStorage).forEach((k) => {
           if (k.startsWith('portfolio_db_')) localStorage.removeItem(k);
         });
+        localStorage.setItem('portfolio_db_skills', '[]');
+        localStorage.setItem('portfolio_db_projects', '[]');
+        localStorage.setItem('portfolio_db_education', '[]');
+        localStorage.setItem('portfolio_db_experience', '[]');
+        localStorage.setItem('portfolio_db_certifications', '[]');
         localStorage.setItem('portfolio_db___version', 'v3_clean');
       } catch (e) {
         console.warn(e);
@@ -125,7 +130,7 @@ export default function AdminSettingsPage() {
             label="Phone Number (Optional)"
             value={settings.contact_phone || ''}
             onChange={(e) => setSettings({ ...settings, contact_phone: e.target.value })}
-            placeholder="+20 127 501 1232"
+            placeholder="+1 (555) 000-0000"
           />
           <Input
             label="Location"

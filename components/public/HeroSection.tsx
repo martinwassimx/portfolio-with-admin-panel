@@ -15,7 +15,7 @@ export function HeroSection({ section, siteSettings }: HeroSectionProps) {
   const stats = (cfg.stats as Array<{ num: string; label: string }>) || [];
 
   return (
-    <section id="hero" className="relative min-h-[92vh] flex flex-col justify-center pt-28 pb-16 overflow-hidden">
+    <section id="hero" className="relative min-h-[92vh] flex flex-col justify-center pt-36 sm:pt-40 pb-16 overflow-hidden">
       {/* Background Cyber Grid */}
       <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none" />
 

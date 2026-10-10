@@ -85,56 +85,92 @@ import {
   PageSectionConfig,
 } from '../../../lib/db/types';
 
-const SAMPLE_CV_TEXT = `AHMED HOSSAM ELHOSSARY
-Software Engineering | Mobile & AI Developer
-01014060621 | ahmedelhossery22@gmail.com | Cairo, Egypt
-linkedin.com/in/ahmed-elhossary | github.com/ahmedelhossary22
+const SAMPLE_CV_TEXT = `MARTIN WASSIM
+Software Engineer | AI/ML Engineer | Founder
+martinwassims@gmail.com | Giza, Egypt
+linkedin.com/in/martin-wassim | github.com/martinwassimx | martinx.work
 
 PROFESSIONAL SUMMARY
-Software Engineering with practical experience in mobile application development using Flutter/Dart, AI and machine learning applications, and algorithm design. Certified Flutter developer with a portfolio of real-world projects spanning computer vision, AI-driven optimization, and cross-platform mobile apps. Seeking an internship or junior developer role to contribute to a high-performing engineering team.
+Computer Science student at Helwan National University (Robotics and Software Engineering) and software engineer with hands-on experience building full-stack, AI/ML, desktop, and enterprise applications. Founder of Systemize EG, delivering custom business software, CRM solutions, smart automation systems, and management tools. Experienced with Python, C#, Java, ASP.NET Web API, SQL Server, PyTorch, and TensorFlow, with additional depth in computer vision, deep learning, and software architecture.
 
 EDUCATION
-Bachelor of Science in Software Engineering (Expected Graduation: 2027)
+Bachelor of Science in Computer Science (Robotics and Software Engineering) (Expected Graduation: 2027)
 Faculty of Computer and Information Sciences — Helwan National University
 
 TECHNICAL SKILLS
-Programming Languages: Python, Java, C++, C, Dart, SQL
-Mobile Development: Flutter
-Artificial Intelligence: Computer Vision, Gesture Recognition, Optimization Algorithms
-Tools and Platforms: Git, GitHub
-Core Concepts: Object-Oriented Programming, Data Structures, Algorithms, REST APIs
+Programming Languages: Python, C#, Java, TypeScript, JavaScript, SQL, VB.NET, HTML5, CSS3
+Backend & Web: Next.js 16, React 19, ASP.NET Web API, REST APIs, Flask, FastAPI, Tailwind CSS, Supabase
+AI & Machine Learning: PyTorch, TensorFlow, Deep Learning, Computer Vision, CNNs, Vision Transformers (ViT), NLP, RAG, ChromaDB, Ollama
+Databases & Cloud: SQL Server, PostgreSQL, MySQL, Relational Database Design, Supabase Storage, Docker
+Tools & Security: Git, Postman, RestSharp, Kali Linux, Nmap, Burp Suite
+
+EXPERIENCE
+Founder & Lead Software Engineer December 2025 – Present
+Systemize EG · Egypt
+– Designed and delivered custom Daily Sales Management Systems (POS) with an Arabic-first UI, multi-payment support, and Excel reporting using Java Swing and Apache POI
+– Designed CRM solutions and smart automation systems for business clients
+– Developed websites and digital tools to help businesses work smarter and scale faster
+– Managed the full product lifecycle: requirements, development, delivery, and client support
+
+Software Development Intern August 2026 – September 2026
+National Steel Fabrication (NSF) – Orascom Construction · Egypt
+– Built an enterprise IT request and workflow system using VB.NET WinForms and a responsive web dashboard
+– Developed a C# ASP.NET Web API integrated with SQL Server for request routing, status management, and audit tracking
+– Created a responsive management dashboard (JavaScript, HTML5, CSS3) for employee requests and ticket monitoring
+– Designed a normalized SQL Server database with transactional integrity and sequential ticket ID generation
 
 PROJECTS
-Waste Classifier — AI Image Classification Application
-– Developed a computer vision application to automatically classify waste types using deep learning models
-– Categorized waste images into recyclable and non-recyclable groups to support smarter recycling decisions
-Technologies: Python, Machine Learning, Computer Vision
+Velora — Gamified Daily Mission Platform
+– Built a full-stack daily mission game with XP, coins, levels, streaks, achievements, daily login rewards, and a leaderboard
+– Developed an admin dashboard for user and role management, mission creation and assignment, submission review with bonus rewards, and activity logs
+– Enforced rewards server-side with server actions and Postgres security rules; implemented PWA install
+Technologies: Next.js 16, React 19, TypeScript, Tailwind CSS, Supabase, PostgreSQL, PWA
 
-Vehicle Routing Problem (VRP) — AI Optimization
-– Implemented an AI-driven solution for the Vehicle Routing Problem using advanced optimization algorithms
-– Applied operations research techniques to minimize delivery distances and reduce routing costs
-Technologies: Python, Artificial Intelligence, Operations Research
+WasteNet — Waste Classification Neural Network
+– Developed a deep learning system that classifies waste into six categories for automated recycling
+– Benchmarked baseline CNN, improved CNN, transfer learning, and Vision Transformer (ViT) architectures
+– Deployed the best model as a local inference server with an interactive real-time web dashboard
+Technologies: Python, PyTorch, Vision Transformers (ViT), CNNs, Flask, OpenCV
 
-Event App — Cross-Platform Mobile Application
-– Built a full-featured Flutter mobile application for browsing, creating, and managing events
-– Applied Flutter best practices including state management, clean architecture, and responsive UI design
-Technologies: Flutter, Dart
+RAG-Powered Document Assistant — AI Knowledge Base
+– Built a Retrieval-Augmented Generation system for question answering over academic PDF documents
+– Implemented semantic chunking, vector embeddings, and search with Sentence Transformers and ChromaDB
+– Integrated a local LLM via Ollama to generate grounded, citation-backed answers with verbatim page references
+Technologies: Python, RAG, ChromaDB, Ollama, Sentence Transformers, FastAPI, Streamlit
 
-Gesture Recognition — Real-Time Computer Vision System
-– Built a real-time hand gesture recognition system enabling hands-free human-computer interaction
-– Processed live video input to detect and classify hand gestures with high accuracy
-Technologies: Python, Computer Vision, Machine Learning
+Enterprise IT Request & Ticketing Platform — NSF Orascom
+– Built an end-to-end enterprise ticketing platform with desktop and web management interfaces
+– Developed REST APIs for ticket routing, status transitions, and requester audit tracking
+– Designed the SQL Server relational database and responsive web dashboard for monitoring and administration
+Technologies: C#, ASP.NET Web API, VB.NET, SQL Server, JavaScript
+
+Coin Counting & Classification System — Computer Vision
+– Developed an automated computer vision inspection system for coin detection, counting, classification, and value calculation
+– Applied Otsu thresholding, morphological filtering, and watershed segmentation to isolate touching coins
+Technologies: Python, OpenCV, Computer Vision, Watershed Segmentation
 
 CERTIFICATIONS AND TRAINING
-Flutter Development Diploma June 2025 – November 2025
-Route IT Training Center | Certified in cross-platform mobile development with Flutter and Dart
+Artificial Intelligence (90 hrs) August 2025
+Information Technology Institute (ITI) | Machine Learning, Deep Learning, PyTorch, Computer Vision
 
-Automation Workflow with N8N Professional July 2026 – December 2026
-Digital Egypt Pioneers Initiative (DEPI)
+HCIA-AI V4.0 Certification Course July 2025
+Huawei ICT Academy | AI Architecture, Neural Networks, Deep Learning Frameworks
+
+Fundamentals of Deep Learning June 2025
+NVIDIA Deep Learning Institute | CNNs, Data Augmentation, Transfer Learning
+
+Getting Started with Deep Learning May 2025
+NVIDIA Deep Learning Institute | Neural Network Foundations, Loss Functions
+
+Deep Learning & NLP in Python April 2025
+DataCamp | TensorFlow, Keras, NLP Tokenization, Recurrent Neural Networks
+
+Python Essentials 1 November 2024
+Cisco Networking Academy & Python Institute | Python Programming, OOP Principles
 
 LANGUAGES
 Arabic: Native
-English: B2`;
+English: Upper-Intermediate (B2)`;
 
 export default function CVImportPage() {
   const router = useRouter();
@@ -217,13 +253,18 @@ export default function CVImportPage() {
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.error || 'Reset failed.');
 
-      // 1. Wipe client localStorage and preserve clean DB version
+      // 1. Wipe client localStorage and set explicit empty collections
       try {
         Object.keys(localStorage).forEach((k) => {
           if (k.startsWith('portfolio_db_')) {
             localStorage.removeItem(k);
           }
         });
+        localStorage.setItem('portfolio_db_skills', '[]');
+        localStorage.setItem('portfolio_db_projects', '[]');
+        localStorage.setItem('portfolio_db_education', '[]');
+        localStorage.setItem('portfolio_db_experience', '[]');
+        localStorage.setItem('portfolio_db_certifications', '[]');
         localStorage.setItem('portfolio_db___version', 'v3_clean');
       } catch (e) {
         console.warn('LocalStorage clear warning:', e);

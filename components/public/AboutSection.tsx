@@ -18,8 +18,8 @@ export function AboutSection({ section }: AboutSectionProps) {
   const tags = (cfg.tags as string[]) || ['#SoftwareEngineering', '#FullStack', '#AI', '#NextJS'];
   const metaInfo = (cfg.meta_info as Array<{ icon: string; label: string; value: string }>) || [];
 
-  const getMetaIcon = (iconName: string) => {
-    switch (iconName.toLowerCase()) {
+  const getMetaIcon = (iconName?: string) => {
+    switch ((iconName || '').toLowerCase()) {
       case 'mappin':
         return <MapPin className="w-4 h-4" style={{ color: 'var(--accent)' }} />;
       case 'graduationcap':

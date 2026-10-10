@@ -93,21 +93,7 @@ export default async function HomePage() {
       {/* Optional Custom Cursor */}
       <CustomCursor enabled={siteSettings.enable_custom_cursor !== false} />
 
-      {/* Announcement Banner */}
-      {siteSettings.announcement_banner_enabled && (
-        <div
-          className="border-b py-2.5 px-4 text-center text-xs font-semibold backdrop-blur-md"
-          style={{
-            background: 'linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, transparent), color-mix(in srgb, var(--accent-2) 20%, transparent))',
-            borderColor: 'color-mix(in srgb, var(--accent) 30%, transparent)',
-            color: 'var(--text)',
-          }}
-        >
-          {siteSettings.announcement_banner_text || '🚀 Open for new software engineering and AI collaborations'}
-        </div>
-      )}
-
-      {/* Sticky Navigation Bar */}
+      {/* Navigation Bar & Announcement Header */}
       <Navbar navItems={navItems} siteSettings={siteSettings} />
 
       <main className="flex-1">

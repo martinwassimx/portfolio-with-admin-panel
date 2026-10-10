@@ -88,13 +88,13 @@ Parses a resume file (PDF) or raw resume text into structured portfolio entities
   "success": true,
   "data": {
     "personal": {
-      "fullName": "Ahmed Hossam Elhossary",
-      "headline": "Software Engineering | Mobile & AI Developer",
-      "email": "ahmedelhossery22@gmail.com",
-      "phone": "01014060621",
-      "location": "Cairo, Egypt",
-      "githubUrl": "https://github.com/ahmedelhossary22",
-      "linkedinUrl": "https://linkedin.com/in/ahmed-elhossary"
+      "fullName": "Martin Wassim",
+      "headline": "Software Engineer | AI/ML Engineer | Founder",
+      "email": "martinwassims@gmail.com",
+      "phone": "",
+      "location": "Giza, Egypt",
+      "githubUrl": "https://github.com/martinwassimx",
+      "linkedinUrl": "https://linkedin.com/in/martin-wassim"
     },
     "summary": {
       "bioParagraphs": [
@@ -186,17 +186,17 @@ Synchronizes single or batch data updates across both the local server store (`d
   "mode": "replace",
   "batch": {
     "site_settings": {
-      "site_title": "Ahmed Hossam Elhossary | Portfolio",
-      "logo_text": "AH"
+      "site_title": "Martin Wassim | Portfolio",
+      "logo_text": "MW"
     },
     "page_sections": [
       {
         "section_key": "hero",
-        "title": "Ahmed Hossam Elhossary",
-        "subtitle": "Software Engineering | Mobile & AI Developer",
+        "title": "Martin Wassim",
+        "subtitle": "Software Engineer | AI/ML Specialist",
         "config": {
-          "first_name": "Ahmed",
-          "highlighted_name": "Hossam Elhossary"
+          "first_name": "Martin",
+          "highlighted_name": "Wassim"
         }
       }
     ],

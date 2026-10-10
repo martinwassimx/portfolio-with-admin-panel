@@ -12,7 +12,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const isSupabaseReady = isSupabaseConfigured();
 
-  const [email, setEmail] = useState('admin@portfolio.local');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
 
         if (authError) throw authError;
 
-        // Verify admin role in profile
+        // Verify administrator role in profiles table
         if (data.user) {
           const { data: profile } = await supabase
             .from('profiles')
@@ -44,22 +44,17 @@ export default function AdminLoginPage() {
             throw new Error('Access denied: You do not have administrator permissions.');
           }
         }
+      } else {
+        // Fallback for offline development mode
+        await loginAdminLocally(email);
       }
 
-      // Record admin session
-      await loginAdminLocally(email);
       router.push('/admin');
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      setError(err.message || 'Login failed. Please verify your credentials.');
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleQuickDemoLogin = async () => {
-    setLoading(true);
-    await loginAdminLocally('admin@portfolio.local');
-    router.push('/admin');
   };
 
   return (
@@ -67,7 +62,7 @@ export default function AdminLoginPage() {
       {/* Background Cyber Grid */}
       <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none" />
 
-      {/* Radial glows */}
+      {/* Radial ambient glow orbs */}
       <div className="glow-orb w-[450px] h-[450px] bg-cyan-500/10 -top-32 -left-32" />
       <div className="glow-orb w-[450px] h-[450px] bg-purple-600/10 -bottom-32 -right-32" />
 
@@ -101,7 +96,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-[#07090f] border border-white/10 focus:border-cyan-400 rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-400/50"
-                  placeholder="admin@portfolio.local"
+                  placeholder="admin@example.com"
                 />
                 <Mail className="w-4 h-4 text-gray-500 absolute left-3.5 top-3.5" />
               </div>
@@ -114,9 +109,10 @@ export default function AdminLoginPage() {
               <div className="relative">
                 <input
                   type="password"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder={isSupabaseReady ? '••••••••' : 'Optional in demo mode'}
+                  placeholder="••••••••"
                   className="w-full bg-[#07090f] border border-white/10 focus:border-cyan-400 rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-400/50"
                 />
                 <Key className="w-4 h-4 text-gray-500 absolute left-3.5 top-3.5" />
@@ -135,19 +131,6 @@ export default function AdminLoginPage() {
             </Button>
           </form>
 
-          {/* Fallback / Quick access option for immediate exploration */}
-          {!isSupabaseReady && (
-            <div className="mt-6 pt-6 border-t border-white/10 text-center">
-              <button
-                type="button"
-                onClick={handleQuickDemoLogin}
-                className="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-white/5 border border-white/10 text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all flex items-center justify-center gap-2"
-              >
-                <span>Enter Admin Console (Local Demo Mode)</span>
-              </button>
-            </div>
-          )}
-
           {/* Setup Link */}
           <div className="mt-6 text-center">
             <Link
@@ -155,7 +138,7 @@ export default function AdminLoginPage() {
               className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-cyan-400 transition-colors"
             >
               <Database className="w-3.5 h-3.5" />
-              <span>Supabase Setup & First-Run Instructions</span>
+              <span>Database Connection & Setup</span>
             </Link>
           </div>
         </div>

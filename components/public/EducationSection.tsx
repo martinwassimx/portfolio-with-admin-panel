@@ -14,6 +14,8 @@ export function EducationSection({ section, education }: EducationSectionProps) 
     .filter((e) => e.is_visible)
     .sort((a, b) => a.sort_order - b.sort_order);
 
+  if (visibleEntries.length === 0) return null;
+
   return (
     <section id="education" className="relative py-24 border-t border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

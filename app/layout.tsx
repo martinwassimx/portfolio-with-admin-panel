@@ -34,8 +34,11 @@ export default async function RootLayout({
     getSiteSettings(),
   ]);
 
+  const isCyanAccent = theme.primary_color?.toLowerCase() === '#00c8ff';
   const dynamicGlow =
-    theme.accent_glow || `color-mix(in srgb, ${theme.primary_color} 35%, transparent)`;
+    theme.accent_glow && (isCyanAccent || !theme.accent_glow.includes('0, 200, 255'))
+      ? theme.accent_glow
+      : `color-mix(in srgb, ${theme.primary_color} 38%, transparent)`;
 
   return (
     <html
