@@ -9,7 +9,7 @@
 
 ## 1. Database Overview
 
-The portfolio uses **PostgreSQL 15+** managed through **Supabase**. When running in offline or demo mode, the application utilizes a structured JSON document store (`data/portfolio-store.json`) with client-side `localStorage` mirroring.
+The portfolio uses **PostgreSQL 15+** managed through **Supabase**. When running in offline or standalone local mode, the application utilizes a structured JSON document store (`data/portfolio-store.json`) with client-side `localStorage` mirroring.
 
 ```mermaid
 erDiagram

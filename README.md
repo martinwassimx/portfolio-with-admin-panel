@@ -330,7 +330,7 @@ Follow these exact steps to set up the project locally:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/portfolio-with-admin-panel.git
+git clone https://github.com/martinwassimx/portfolio-with-admin-panel.git
 cd portfolio-with-admin-panel
 ```
 
@@ -352,7 +352,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
-*(Leave placeholder values if you wish to run in Local Demo Mode).*
+*(If you omit Supabase credentials, the application operates in standalone local fallback mode).*
 
 ### 4. Initialize Database (For Supabase Cloud Mode)
 If using Supabase, navigate to your **Supabase Dashboard > SQL Editor** and execute the migrations in order:
@@ -459,22 +459,21 @@ Starts the production server on `http://localhost:3000`.
 
 ### 2. Accessing the Admin Console
 1. Navigate to [http://localhost:3000/admin/login](http://localhost:3000/admin/login).
-2. If running in **Local Demo Mode**, click **"Enter Admin Console (Local Demo Mode)"** for instant one-click access.
-3. If running in **Supabase Cloud Mode**, sign in using your registered admin email and password.
+2. Sign in using your administrator email and password registered in Supabase Authentication.
 
 ### 3. Using Smart Portfolio Auto-Fill 2.0
 1. Navigate to `/admin/cv-import`.
-2. Select **"Upload PDF Resume"** to upload your CV, or click **"Load Sample CV (Software / AI Engineer)"**.
+2. Choose **"Upload PDF File"** to upload your resume document or **"Paste Text"** to input your CV directly.
 3. Click **"Parse & Analyze Document"**.
 4. Review the parsed entities in the interactive preview card:
    - Verify candidate full name and professional headline.
-   - Inspect synthesized biography paragraphs and technology hashtags.
+   - Inspect synthesized biography paragraphs and core strengths.
    - Review mapped technical skills and category groupings.
    - Review extracted projects, career milestones, degrees, and certifications.
 5. Choose your import mode:
    - **Merge**: Merges new records with existing portfolio items.
-   - **Replace**: Cleanly replaces existing dynamic records with the new parsed CV data.
-6. Click **"Apply & Auto-Fill Entire Portfolio"**. The system persists all changes across the database and revalidates page caches.
+   - **Replace**: Cleanly replaces existing records with the new parsed CV data.
+6. Click **"Apply & Auto-Fill Entire Portfolio"**. The system persists all changes across the database and updates your public portfolio immediately.
 
 ### 4. Clearing All Portfolio Data
 To reset the portfolio to a clean placeholder state:

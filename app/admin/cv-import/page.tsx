@@ -85,92 +85,7 @@ import {
   PageSectionConfig,
 } from '../../../lib/db/types';
 
-const SAMPLE_CV_TEXT = `MARTIN WASSIM
-Software Engineer | AI/ML Engineer | Founder
-martinwassims@gmail.com | Giza, Egypt
-linkedin.com/in/martin-wassim | github.com/martinwassimx | martinx.work
 
-PROFESSIONAL SUMMARY
-Computer Science student at Helwan National University (Robotics and Software Engineering) and software engineer with hands-on experience building full-stack, AI/ML, desktop, and enterprise applications. Founder of Systemize EG, delivering custom business software, CRM solutions, smart automation systems, and management tools. Experienced with Python, C#, Java, ASP.NET Web API, SQL Server, PyTorch, and TensorFlow, with additional depth in computer vision, deep learning, and software architecture.
-
-EDUCATION
-Bachelor of Science in Computer Science (Robotics and Software Engineering) (Expected Graduation: 2027)
-Faculty of Computer and Information Sciences — Helwan National University
-
-TECHNICAL SKILLS
-Programming Languages: Python, C#, Java, TypeScript, JavaScript, SQL, VB.NET, HTML5, CSS3
-Backend & Web: Next.js 16, React 19, ASP.NET Web API, REST APIs, Flask, FastAPI, Tailwind CSS, Supabase
-AI & Machine Learning: PyTorch, TensorFlow, Deep Learning, Computer Vision, CNNs, Vision Transformers (ViT), NLP, RAG, ChromaDB, Ollama
-Databases & Cloud: SQL Server, PostgreSQL, MySQL, Relational Database Design, Supabase Storage, Docker
-Tools & Security: Git, Postman, RestSharp, Kali Linux, Nmap, Burp Suite
-
-EXPERIENCE
-Founder & Lead Software Engineer December 2025 – Present
-Systemize EG · Egypt
-– Designed and delivered custom Daily Sales Management Systems (POS) with an Arabic-first UI, multi-payment support, and Excel reporting using Java Swing and Apache POI
-– Designed CRM solutions and smart automation systems for business clients
-– Developed websites and digital tools to help businesses work smarter and scale faster
-– Managed the full product lifecycle: requirements, development, delivery, and client support
-
-Software Development Intern August 2026 – September 2026
-National Steel Fabrication (NSF) – Orascom Construction · Egypt
-– Built an enterprise IT request and workflow system using VB.NET WinForms and a responsive web dashboard
-– Developed a C# ASP.NET Web API integrated with SQL Server for request routing, status management, and audit tracking
-– Created a responsive management dashboard (JavaScript, HTML5, CSS3) for employee requests and ticket monitoring
-– Designed a normalized SQL Server database with transactional integrity and sequential ticket ID generation
-
-PROJECTS
-Velora — Gamified Daily Mission Platform
-– Built a full-stack daily mission game with XP, coins, levels, streaks, achievements, daily login rewards, and a leaderboard
-– Developed an admin dashboard for user and role management, mission creation and assignment, submission review with bonus rewards, and activity logs
-– Enforced rewards server-side with server actions and Postgres security rules; implemented PWA install
-Technologies: Next.js 16, React 19, TypeScript, Tailwind CSS, Supabase, PostgreSQL, PWA
-
-WasteNet — Waste Classification Neural Network
-– Developed a deep learning system that classifies waste into six categories for automated recycling
-– Benchmarked baseline CNN, improved CNN, transfer learning, and Vision Transformer (ViT) architectures
-– Deployed the best model as a local inference server with an interactive real-time web dashboard
-Technologies: Python, PyTorch, Vision Transformers (ViT), CNNs, Flask, OpenCV
-
-RAG-Powered Document Assistant — AI Knowledge Base
-– Built a Retrieval-Augmented Generation system for question answering over academic PDF documents
-– Implemented semantic chunking, vector embeddings, and search with Sentence Transformers and ChromaDB
-– Integrated a local LLM via Ollama to generate grounded, citation-backed answers with verbatim page references
-Technologies: Python, RAG, ChromaDB, Ollama, Sentence Transformers, FastAPI, Streamlit
-
-Enterprise IT Request & Ticketing Platform — NSF Orascom
-– Built an end-to-end enterprise ticketing platform with desktop and web management interfaces
-– Developed REST APIs for ticket routing, status transitions, and requester audit tracking
-– Designed the SQL Server relational database and responsive web dashboard for monitoring and administration
-Technologies: C#, ASP.NET Web API, VB.NET, SQL Server, JavaScript
-
-Coin Counting & Classification System — Computer Vision
-– Developed an automated computer vision inspection system for coin detection, counting, classification, and value calculation
-– Applied Otsu thresholding, morphological filtering, and watershed segmentation to isolate touching coins
-Technologies: Python, OpenCV, Computer Vision, Watershed Segmentation
-
-CERTIFICATIONS AND TRAINING
-Artificial Intelligence (90 hrs) August 2025
-Information Technology Institute (ITI) | Machine Learning, Deep Learning, PyTorch, Computer Vision
-
-HCIA-AI V4.0 Certification Course July 2025
-Huawei ICT Academy | AI Architecture, Neural Networks, Deep Learning Frameworks
-
-Fundamentals of Deep Learning June 2025
-NVIDIA Deep Learning Institute | CNNs, Data Augmentation, Transfer Learning
-
-Getting Started with Deep Learning May 2025
-NVIDIA Deep Learning Institute | Neural Network Foundations, Loss Functions
-
-Deep Learning & NLP in Python April 2025
-DataCamp | TensorFlow, Keras, NLP Tokenization, Recurrent Neural Networks
-
-Python Essentials 1 November 2024
-Cisco Networking Academy & Python Institute | Python Programming, OOP Principles
-
-LANGUAGES
-Arabic: Native
-English: Upper-Intermediate (B2)`;
 
 export default function CVImportPage() {
   const router = useRouter();
@@ -351,11 +266,7 @@ export default function CVImportPage() {
     }
   };
 
-  const handleLoadSampleCV = () => {
-    setPastedText(SAMPLE_CV_TEXT);
-    setActiveInputTab('paste');
-    setSuccessResult(null);
-  };
+
 
   const handleParse = async () => {
     if (activeInputTab === 'upload' && !cvFile) {
@@ -1187,37 +1098,25 @@ export default function CVImportPage() {
             <span>Step 1: Provide Your CV / Resume</span>
           </h3>
 
-          <div className="flex items-center gap-2">
+          <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
             <button
               type="button"
-              onClick={handleLoadSampleCV}
-              className="px-3 py-1.5 text-xs font-semibold rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 transition-colors flex items-center gap-1.5 cursor-pointer"
-              title="Fill in a sample engineer CV to test the auto-fill immediately"
+              onClick={() => setActiveInputTab('upload')}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                activeInputTab === 'upload' ? 'bg-cyan-500 text-slate-950' : 'text-gray-400 hover:text-white'
+              }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Load Sample Resume</span>
+              Upload PDF File
             </button>
-
-            <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
-              <button
-                type="button"
-                onClick={() => setActiveInputTab('upload')}
-                className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                  activeInputTab === 'upload' ? 'bg-cyan-500 text-slate-950' : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                Upload PDF File
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveInputTab('paste')}
-                className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                  activeInputTab === 'paste' ? 'bg-cyan-500 text-slate-950' : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                Paste Text
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setActiveInputTab('paste')}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                activeInputTab === 'paste' ? 'bg-cyan-500 text-slate-950' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Paste Text
+            </button>
           </div>
         </div>
 

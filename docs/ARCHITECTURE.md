@@ -12,7 +12,7 @@
 The system is built as a unified full-stack application using **Next.js 16 (App Router)** and **React 19**, backed by a **hybrid dual-layer data architecture**:
 
 1. **Remote Cloud Layer (Primary Production)**: **Supabase** (PostgreSQL 15+) with Row-Level Security (RLS) and Supabase Storage.
-2. **Local Fallback Engine (Zero-Config / Offline / Demo Mode)**: An in-memory and local JSON file persistence layer (`data/portfolio-store.json`) with client-side `localStorage` mirroring.
+2. **Local Fallback Engine (Zero-Config / Offline / Standalone Mode)**: An in-memory and local JSON file persistence layer (`data/portfolio-store.json`) with client-side `localStorage` mirroring.
 
 This hybrid model guarantees that the portfolio functions immediately upon cloning without requiring external services, while seamlessly upgrading to cloud persistence when Supabase credentials are provided.
 

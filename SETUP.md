@@ -4,9 +4,9 @@ This guide walks you through setting up and deploying your portfolio with the ad
 
 ---
 
-## 1. Quick Start (Local Demo Mode)
+## 1. Quick Start (Standalone Local Mode)
 
-The portfolio comes with an in-memory/local storage fallback engine pre-seeded with authentic portfolio content (projects, skills, education, experience, CV download). You can run and explore the application immediately without configuring Supabase first:
+The portfolio comes with a zero-lockin fallback engine that allows you to run, preview, and test the entire application locally out of the box:
 
 ```bash
 # 1. Install dependencies
@@ -20,7 +20,7 @@ npm run dev
 # Admin panel: http://localhost:3000/admin
 ```
 
-To log into the Admin Console in local demo mode, simply visit `/admin/login` and click **"Enter Admin Console (Local Demo Mode)"** or enter any credentials.
+To enable full production cloud persistence across devices, connect your Supabase project as described in Section 2.
 
 ---
 
