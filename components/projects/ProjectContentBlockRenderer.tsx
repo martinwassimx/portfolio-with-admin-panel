@@ -38,7 +38,7 @@ export function ProjectContentBlockRenderer({ block }: { block: ProjectContentBl
           <ul className="space-y-2.5">
             {listItems.map((item, idx) => (
               <li key={idx} className="flex items-start gap-3 text-gray-300 text-sm sm:text-base">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
                 <span>{typeof item === 'string' ? item : JSON.stringify(item)}</span>
               </li>
             ))}
@@ -51,10 +51,13 @@ export function ProjectContentBlockRenderer({ block }: { block: ProjectContentBl
         ? block.content
         : { code: String(block.content), language: 'typescript' };
       return (
-        <div className="my-6 rounded-2xl bg-[#0a0f1d] border border-white/10 overflow-hidden shadow-2xl">
+        <div
+          className="my-6 rounded-2xl border border-white/10 overflow-hidden shadow-2xl"
+          style={{ backgroundColor: 'var(--bg-card)' }}
+        >
           <div className="flex items-center justify-between px-4 py-2.5 bg-white/5 border-b border-white/10">
             <div className="flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-cyan-400" />
+              <Code2 className="w-4 h-4" style={{ color: 'var(--accent)' }} />
               <span className="text-xs font-mono text-gray-300">
                 {block.title || snippet.language}
               </span>
@@ -75,13 +78,21 @@ export function ProjectContentBlockRenderer({ block }: { block: ProjectContentBl
 
     case 'callout':
       return (
-        <div className="my-6 p-5 sm:p-6 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-start gap-4">
-          <Info className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
+        <div
+          className="my-6 p-5 sm:p-6 rounded-2xl border flex items-start gap-4 shadow-lg backdrop-blur-md"
+          style={{
+            backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)',
+            borderColor: 'color-mix(in srgb, var(--accent) 30%, transparent)',
+          }}
+        >
+          <Info className="w-5 h-5 shrink-0 mt-0.5" style={{ color: 'var(--accent)' }} />
           <div>
             {block.title && (
-              <h4 className="text-base font-semibold text-cyan-200 mb-1">{block.title}</h4>
+              <h4 className="text-base font-semibold mb-1" style={{ color: 'var(--accent)' }}>
+                {block.title}
+              </h4>
             )}
-            <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-200 leading-relaxed">
               {typeof block.content === 'string' ? block.content : JSON.stringify(block.content)}
             </p>
           </div>

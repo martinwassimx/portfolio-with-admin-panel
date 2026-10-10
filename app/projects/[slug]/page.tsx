@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ExternalLink, ArrowLeft, Calendar, Tag, CheckCircle2, ArrowRight } from 'lucide-react';
 import { GithubIcon } from '../../../components/ui/Icons';
-import { getProjects, getProjectBySlug, getSiteSettings } from '../../../lib/db/server-store';
+import { getProjects, getProjectBySlug, getSiteSettings, getSocialLinks } from '../../../lib/db/server-store';
 
 export const dynamic = 'force-dynamic';
 import { ProjectContentBlockRenderer } from '../../../components/projects/ProjectContentBlockRenderer';
@@ -45,7 +45,10 @@ export default async function ProjectDetailPage({
   const prevProject = currentIndex > 0 ? allProjects[currentIndex - 1] : null;
   const nextProject = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null;
 
-  const siteSettings = await getSiteSettings();
+  const [siteSettings, socialLinks] = await Promise.all([
+    getSiteSettings(),
+    getSocialLinks(),
+  ]);
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] flex flex-col transition-colors duration-300">
@@ -56,16 +59,20 @@ export default async function ProjectDetailPage({
           {/* Breadcrumb Back Link */}
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-cyan-400 mb-8 transition-colors group"
+            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors group mb-8"
+            style={{ color: 'var(--text-muted)' }}
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Back to All Projects</span>
+            <span className="group-hover:underline">Back to All Projects</span>
           </Link>
 
           {/* Project Header */}
           <div className="mb-10">
             <div className="flex flex-wrap items-center gap-3 mb-4">
-              <span className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+              <span
+                className="text-xs font-bold uppercase tracking-wider"
+                style={{ color: 'var(--accent)' }}
+              >
                 {project.project_type || 'Software Application'}
               </span>
               <span className="text-gray-600">•</span>
@@ -97,7 +104,12 @@ export default async function ProjectDetailPage({
                 {project.technologies?.map((tech, i) => (
                   <span
                     key={i}
-                    className="px-3 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-cyan-300"
+                    className="px-3 py-1 rounded-lg text-xs font-semibold border backdrop-blur-sm transition-all"
+                    style={{
+                      backgroundColor: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+                      borderColor: 'color-mix(in srgb, var(--accent) 28%, transparent)',
+                      color: 'var(--accent)',
+                    }}
                   >
                     {tech}
                   </span>
@@ -164,16 +176,28 @@ export default async function ProjectDetailPage({
             {(project.problem_statement || project.goals) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {project.problem_statement && (
-                  <div className="p-6 rounded-2xl bg-[#0f172a] border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-2">The Problem</h3>
+                  <div
+                    className="p-6 rounded-2xl border border-white/10 shadow-lg"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
+                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-4 rounded-full shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                      The Problem
+                    </h3>
                     <p className="text-sm text-gray-300 leading-relaxed">
                       {project.problem_statement}
                     </p>
                   </div>
                 )}
                 {project.goals && (
-                  <div className="p-6 rounded-2xl bg-[#0f172a] border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-2">Project Goals</h3>
+                  <div
+                    className="p-6 rounded-2xl border border-white/10 shadow-lg"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
+                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-4 rounded-full shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                      Project Goals
+                    </h3>
                     <p className="text-sm text-gray-300 leading-relaxed">
                       {project.goals}
                     </p>
@@ -186,16 +210,28 @@ export default async function ProjectDetailPage({
             {(project.challenges || project.solution) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {project.challenges && (
-                  <div className="p-6 rounded-2xl bg-[#0f172a] border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-2">Challenges</h3>
+                  <div
+                    className="p-6 rounded-2xl border border-white/10 shadow-lg"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
+                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-4 rounded-full shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                      Challenges
+                    </h3>
                     <p className="text-sm text-gray-300 leading-relaxed">
                       {project.challenges}
                     </p>
                   </div>
                 )}
                 {project.solution && (
-                  <div className="p-6 rounded-2xl bg-[#0f172a] border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-2">Proposed Solution</h3>
+                  <div
+                    className="p-6 rounded-2xl border border-white/10 shadow-lg"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
+                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-4 rounded-full shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                      Proposed Solution
+                    </h3>
                     <p className="text-sm text-gray-300 leading-relaxed">
                       {project.solution}
                     </p>
@@ -212,9 +248,10 @@ export default async function ProjectDetailPage({
                   {project.features.map((feat, i) => (
                     <div
                       key={i}
-                      className="p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-start gap-3"
+                      className="p-4 rounded-xl border border-white/5 flex items-start gap-3 backdrop-blur-sm"
+                      style={{ backgroundColor: 'color-mix(in srgb, var(--bg-card) 60%, transparent)' }}
                     >
-                      <CheckCircle2 className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: 'var(--accent)' }} />
                       <span className="text-sm text-gray-200">{feat}</span>
                     </div>
                   ))}
@@ -247,16 +284,28 @@ export default async function ProjectDetailPage({
             {(project.outcomes || project.lessons_learned) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
                 {project.outcomes && (
-                  <div className="p-6 rounded-2xl bg-[#0f172a] border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-2">Measurable Outcomes</h3>
+                  <div
+                    className="p-6 rounded-2xl border border-white/10 shadow-lg"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
+                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-4 rounded-full shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                      Measurable Outcomes
+                    </h3>
                     <p className="text-sm text-gray-300 leading-relaxed">
                       {project.outcomes}
                     </p>
                   </div>
                 )}
                 {project.lessons_learned && (
-                  <div className="p-6 rounded-2xl bg-[#0f172a] border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-2">Lessons Learned</h3>
+                  <div
+                    className="p-6 rounded-2xl border border-white/10 shadow-lg"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
+                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-4 rounded-full shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                      Lessons Learned
+                    </h3>
                     <p className="text-sm text-gray-300 leading-relaxed">
                       {project.lessons_learned}
                     </p>
@@ -271,12 +320,13 @@ export default async function ProjectDetailPage({
             {prevProject ? (
               <Link
                 href={`/projects/${prevProject.slug}`}
-                className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group text-left"
+                className="flex items-center gap-3 transition-colors group text-left"
+                style={{ color: 'var(--text-muted)' }}
               >
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                 <div>
                   <span className="text-[11px] uppercase tracking-wider block text-gray-500">Previous Project</span>
-                  <span className="text-sm font-semibold text-white group-hover:text-cyan-300">
+                  <span className="text-sm font-semibold text-white group-hover:underline transition-colors">
                     {prevProject.title}
                   </span>
                 </div>
@@ -288,11 +338,12 @@ export default async function ProjectDetailPage({
             {nextProject ? (
               <Link
                 href={`/projects/${nextProject.slug}`}
-                className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group text-right"
+                className="flex items-center gap-3 transition-colors group text-right"
+                style={{ color: 'var(--text-muted)' }}
               >
                 <div>
                   <span className="text-[11px] uppercase tracking-wider block text-gray-500">Next Project</span>
-                  <span className="text-sm font-semibold text-white group-hover:text-cyan-300">
+                  <span className="text-sm font-semibold text-white group-hover:underline transition-colors">
                     {nextProject.title}
                   </span>
                 </div>
@@ -305,7 +356,7 @@ export default async function ProjectDetailPage({
         </div>
       </main>
 
-      <Footer siteSettings={siteSettings} socialLinks={DEFAULT_SOCIAL_LINKS} />
+      <Footer siteSettings={siteSettings} socialLinks={socialLinks} />
     </div>
   );
 }
